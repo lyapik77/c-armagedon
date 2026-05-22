@@ -2,6 +2,7 @@
 #include <fstream>
 #include "ExpressionEvaluator.h"
 #include "Summator.h"
+#include "Divisor.h"
 #include "CustomExpressionEvaluator.h"
 #include "IShuffle.h"
 
@@ -12,16 +13,23 @@ int main() {
 
     // CustomExpressionEvaluator: 5 операндов, группа 5, 4, -2, 9, 3
     CustomExpressionEvaluator* custom = new CustomExpressionEvaluator(5);
-    double customOps[] = { 5, 4, -2, 9, 3 };
+    double customOps[] = {5, 4, -2, 9, 3};
     custom->setOperands(customOps, 5);
     evaluators[0] = custom;
 
     // Summator: 7 операндов, группа 5, 12.5, 9, -1.5, -9.5, 0, 11
     Summator* summ = new Summator(7);
-    double summOps[] = { 5, 12.5, 9, -1.5, -9.5, 0, 11 };
+    double summOps[] = {5, 12.5, 9, -1.5, -9.5, 0, 11};
     summ->setOperands(summOps, 7);
     evaluators[1] = summ;
 
+    // Divisor: 4 операнда, поэлементно 100, -4, 2.5, -4
+    Divisor* div = new Divisor(4);
+    div->setOperand(0, 100);
+    div->setOperand(1, -4);
+    div->setOperand(2, 2.5);
+    div->setOperand(3, -4);
+    evaluators[2] = div;
 
     std::cout << "=== ЛОГИРОВАНИЕ ===\n";
     for (int i = 0; i < 3; ++i) {
@@ -53,8 +61,7 @@ int main() {
                 std::cout << "Результат: " << evaluators[i]->calculate() << "\n";
             }
             std::cout << "---\n";
-        }
-        else {
+        } else {
             std::cout << "Объект " << i + 1 << " не поддерживает IShuffle.\n";
         }
     }
